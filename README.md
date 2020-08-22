@@ -6,7 +6,9 @@ php 이미지에 ffmpeg와 redis를 추가합니다.
 
 `php`만 `Dockerfile`로 빌드하고, 나머지는 모두 공식 이미지로 구성합니다.
 
-원문은 제 홈페이지에 있습니다.
+상세 원문은 https://www.wsgvet.com/bbs/board.php?bo_table=ubuntu&wr_id=123 를 참조하세요!
+
+
 
 
 ## 서버 시간 설정하기
