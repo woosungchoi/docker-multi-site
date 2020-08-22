@@ -318,6 +318,8 @@ sudo docker-compose up -d --force-recreate --no-deps nginx
 
 도메인을 브라우저에 넣으면 접속이 될 것입니다.
 
+`DB`는 `phpmyadmin`에서 생성하면 됩니다.
+
 
 ## portainer 설명
 
