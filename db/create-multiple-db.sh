@@ -6,7 +6,7 @@ set -u
 function create_multiple_database() {
 	local database=$1
 	echo "  Creating multiple database '$database'"
-	mysql -uroot -prootpassword <<MYSQL_SCRIPT
+	mysql -u root -p rootpassword <<MYSQL_SCRIPT
 	    CREATE DATABASE $database;
         GRANT ALL PRIVILEGES ON $database.* TO 'dbuser'@'%' WITH GRANT OPTION;
         FLUSH PRIVILEGES;
