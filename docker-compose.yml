@@ -94,18 +94,4 @@ services:
       - ./data/portainer_data:/data
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
-
-  code-server:
-    image: linuxserver/code-server
-    container_name: code-server
-    env_file: .env
-    environment:
-    - PUID=82
-    - PGID=82
-    - TZ=Asia/Seoul
-    volumes:
-    - ./data/code-server:/config
-    - ./site:/config/site
-    #ports:
-    #  - 8443:8443
-    restart: unless-stopped
+      
