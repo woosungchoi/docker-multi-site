@@ -105,11 +105,13 @@ GMAIL_USER=youremail@gmail.com
 GMAIL_PASSWORD=abcdefghijklmopr
 ```
 
-MYSQL_ROOT_PASSWORD : mariadb의 루트 비밀번호를 입력합니다.
-MYSQL_USER : DB 유저를 생성합니다. dbuser라고 놔두면 됩니다.
-MYSQL_PASSWORD : 원하는 DB 유저의 비밀번호를 입력합니다.
+`MYSQL_ROOT_PASSWORD` : mariadb의 루트 비밀번호를 입력합니다.
 
-MARIADB_MULTIPLE_DATABASES=gnuboard,wordpress,rhymix
+`MYSQL_USER` : DB 유저를 생성합니다. dbuser라고 놔두면 됩니다.
+
+`MYSQL_PASSWORD` : 원하는 DB 유저의 비밀번호를 입력합니다.
+
+`MARIADB_MULTIPLE_DATABASES`=gnuboard,wordpress,rhymix
 
 위 내용은 자동으로 생성되는 DB의 이름입니다. 콤마로 원하는만큼 생성할 수 있습니다.
 
