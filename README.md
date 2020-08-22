@@ -1,12 +1,56 @@
 # docker-multi-site
 
-`docker compose`로 그누보드, 워드프레스, 라이믹스를 한번에 운영할 수 있는 셋팅입니다.
+우분투 20.04 LTS 기준 `docker compose`로 그누보드, 워드프레스, 라이믹스를 동시에 운영할 수 있는 셋팅입니다.
 
-php 이미지에 ffmpeg와 redis를 추가합니다.
+`php` 이미지에 `ffmpeg`와 `redis`를 추가합니다.
+
+`ffepeg`를 추가하여 그누보드와 라이믹스에서 움직이는 `gif`파일을 `mp4`와 `webm`으로 인코딩할 수 있습니다.
+
+`redis`를 추가하여 세션 저장소로 활용할 수 있고, 워드프레스와 라이믹스에서 `cache`로 쓸 수 있습니다.
 
 `php`만 `Dockerfile`로 빌드하고, 나머지는 모두 공식 이미지로 구성합니다.
 
-원문은 제 홈페이지에 있습니다.
+포트는 `80`과 `443`을 사용하고 있습니다. 해당 포트의 방화벽을 열어주세요.
+
+포트를 변경하고 싶다면 docker-compose.yml 파일에서 `80:80`과 `443:443`을 `xx:80`, `yyy:443`의 형태로 바꾸면 됩니다.
+
+상세 원문은 https://www.wsgvet.com/bbs/board.php?bo_table=ubuntu&wr_id=123 를 참조하세요!
+
+
+## 서버 시간 설정하기
+
+현재 돌아가고 있는 시스템의 `timezone`과 `local time`을 우리나라에 맞게 변경합니다.
+
+우분투 20.04에서는 하나의 명령어로 서울 시간으로 바꿀 수 있습니다.
+
+```
+sudo timedatectl set-timezone Asia/Seoul
+```
+
+이제 현재 우분투 서버의 시간이 서울로 바뀌었습니다.
+
+잘 바뀌었는지 확인하려면
+
+```
+timedatectl
+```
+
+위 명령어만 내리면 바로 확인 가능합니다.
+
+```
+# timedatectl
+               Local time: Fri 2020-08-21 11:29:33 KST
+           Universal time: Fri 2020-08-21 02:29:33 UTC
+                 RTC time: Fri 2020-08-21 02:29:34
+                Time zone: Asia/Seoul (KST, +0900)
+System clock synchronized: yes
+              NTP service: active
+          RTC in local TZ: no
+```
+
+위와 같이 KST와 서울로 표시되는 것을 확인할 수 있습니다.
+
+이 정보를 도커 컨테이너에 모두 넣을 것입니다. 그러면 로그에서도 정확한 시간이 표시될 것입니다.
 
 
 ## git clone으로 다운 받기
