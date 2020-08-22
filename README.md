@@ -9,6 +9,42 @@ php 이미지에 ffmpeg와 redis를 추가합니다.
 원문은 제 홈페이지에 있습니다.
 
 
+## 서버 시간 설정하기
+
+현재 돌아가고 있는 시스템의 timezone과 local time을 우리나라에 맞게 변경합니다.
+
+우분투 20.04에서는 하나의 명령어로 서울 시간으로 바꿀 수 있습니다.
+
+```
+sudo timedatectl set-timezone Asia/Seoul
+```
+
+이제 현재 우분투 서버의 시간이 서울로 바뀌었습니다.
+
+잘 바뀌었는지 확인하려면
+
+```
+timedatectl
+```
+
+위 명령어만 내리면 바로 확인 가능합니다.
+
+```
+# timedatectl
+               Local time: Fri 2020-08-21 11:29:33 KST
+           Universal time: Fri 2020-08-21 02:29:33 UTC
+                 RTC time: Fri 2020-08-21 02:29:34
+                Time zone: Asia/Seoul (KST, +0900)
+System clock synchronized: yes
+              NTP service: active
+          RTC in local TZ: no
+```
+
+위와 같이 KST와 서울로 표시되는 것을 확인할 수 있습니다.
+
+이 정보를 도커 컨테이너에 모두 넣을 것입니다. 그러면 로그에서도 정확한 시간이 표시될 것입니다.
+
+
 ## git clone으로 다운 받기
 
 ```
