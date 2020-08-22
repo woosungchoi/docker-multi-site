@@ -16,6 +16,44 @@
 
 상세 원문은 https://www.wsgvet.com/bbs/board.php?bo_table=ubuntu&wr_id=123 를 참조하세요!
 
+## 폴더 구조 설명
+
+```
+├── data                       # 자동생성 볼륨들
+│   ├── acme.sh
+│   ├── dataredis
+│   ├── dbdata
+│   └── portainer_data
+├── db
+│   └── create-multiple-db.sh  # 다량의 DB 동시생성 스크립트
+├── docker-compose.yml         # 도커 컴퓨터 파일
+├── .env                       # 비번 등 중요정보 숨김파일
+├── build
+│   ├── Dockerfile             # php 빌더를 위한 파일
+│   └── docker-entrypoint.sh   # 3종 CMS 자동 설치 스크립트
+├── nginx
+│   ├── conf.d                 # nginx 설정파일 폴더
+│   │   ├── basic              # 공통 설정파일
+│   │   ├── options-ssl-nginx  # SSL 설정파일
+│   │   ├── ssl-conf           # SSL 경로 설정파일
+│   │   ├── phpmyadmin.conf    # phpmyadmin 설정파일
+│   │   ├── portainer.conf     # portainer 설정파일
+│   │   ├── gnuboard.conf      # 그누보드 설정파일
+│   │   ├── gnuboard-rewrite   # 그누보드 짧은주소
+│   │   ├── rhymix.conf        # 라이믹스 설정파일
+│   │   ├── rhymix-rewrite     # 라이믹스 짧은주소
+│   │   └── wordpress.conf     # 워드프레스 설정파일
+│   ├── logs                   # nginx 로그 폴더
+│   └── nginx.conf             # nginx 설정파일
+├── php
+│   └── php.ini                # php 설정파일
+├── site                       # CMS 폴더 및 SSL인증서 저장 폴더
+│   ├── gnuboard
+│   ├── rhymix
+│   ├── wordpress
+│   └── ssl
+└── ssl_renew.sh               # SSL 인증서 갱신 스크립트
+```
 
 ## 서버 시간 설정하기
 
