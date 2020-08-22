@@ -31,7 +31,8 @@ services:
   php:
     depends_on:
       - db
-    image: gnuboard-ffmpeg-fpm-alpine:1.0.7
+    build:
+      context: ./build
     container_name: php
     restart: unless-stopped
     env_file: .env
