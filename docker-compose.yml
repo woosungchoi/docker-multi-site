@@ -9,6 +9,6 @@ services:
     container_name: acme.sh
     env_file: .env
     volumes:
-      - ./acme.sh:/acme.sh
+      - ./data/acme.sh:/acme.sh
       - ./site:/var/www/html
     command: acme.sh --issue --force --dns dns_cf -d example.com -d *.example.com --key-file /var/www/html/ssl/privkey.pem --fullchain-file /var/www/html/ssl/fullchain.pem --cert-file /var/www/html/ssl/chain.pem
