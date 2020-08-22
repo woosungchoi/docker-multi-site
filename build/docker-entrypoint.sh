@@ -21,7 +21,7 @@ curl -o wordpress.tar.gz -fSL https://wordpress.org/latest.tar.gz \
 && rm wordpress.tar.gz \
 && chown -R www-data:www-data wordpress \
 && chmod -R 777 wordpress/wp-content \
-&& cd .. && chmod 777 wordpress
+&& cd ..
 fi
 # 워드프레스 자동설치 스크립트 끝
 
