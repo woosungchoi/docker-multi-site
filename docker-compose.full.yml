@@ -21,6 +21,7 @@ services:
       - ./data/dataredis:/data
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
+    command: redis-server --maxmemory 256mb --maxmemory-policy allkeys-lru --appendonly yes
 
   smtp:
     image: namshi/smtp
