@@ -1,0 +1,57 @@
+# block direct access to templates, XML schemas, config files, dotfiles, environment info, etc.
+location ~ ^/modules/editor/(skins|styles)/.+\.html$ {
+	# pass
+}
+location ~ ^/(addons|common/tpl|files/ruleset|(m\.)?layouts|modules|plugins|themes|widgets|widgetstyles)/.+\.(html|xml)$ {
+	return 403;
+}
+location ~ ^/files/(attach|config|cache/store)/.+\.(ph(p|t|ar)?[0-9]?|p?html?|cgi|pl|exe|[aj]spx?|inc|bak)$ {
+	return 403;
+}
+location ~ ^/files/(env|member_extra_info/(new_message_flags|point))/ {
+	return 403;
+}
+location ~ ^/(\.git|\.ht|\.travis|codeception\.|composer\.|Gruntfile\.js|package\.json|CONTRIBUTING|COPYRIGHT|LICENSE|README) {
+	return 403;
+}
+
+# fix incorrect relative URLs (for legacy support)
+location ~ ^/(.+)/(addons|files|layouts|m\.layouts|modules|widgets|widgetstyles)/(.+) {
+	try_files $uri $uri/ /$2/$3;
+}
+
+# fix incorrect minified URLs (for legacy support)
+location ~ ^/(.+)\.min\.(css|js)$ {
+	try_files $uri $uri/ /$1.$2;
+}
+
+# rss, blogAPI
+rewrite ^/(rss|atom)$ /index.php?module=rss&act=$1 last;
+rewrite ^/([a-zA-Z0-9_]+)/(rss|atom|api)$ /index.php?mid=$1&act=$2 last;
+
+# trackback
+rewrite ^/([0-9]+)/(.+)/trackback$ /index.php?document_srl=$1&key=$2&act=trackback last;
+rewrite ^/([a-zA-Z0-9_]+)/([0-9]+)/(.+)/trackback$ /index.php?mid=$1&document_srl=$2&key=$3&act=trackback last;
+
+# administrator page
+rewrite ^/admin/?$ /index.php?module=admin last;
+
+# document category
+rewrite ^/([a-zA-Z0-9_]+)/category/([0-9]+)$ /index.php?mid=$1&category=$2 last;
+
+# document permanent link
+rewrite ^/([0-9]+)$ /index.php?document_srl=$1 last;
+
+# mid link
+location ~ ^/([a-zA-Z0-9_]+)/?$ {
+	try_files $uri $uri/ /index.php?mid=$1;
+}
+
+# mid + document link
+rewrite ^/([a-zA-Z0-9_]+)/([0-9]+)$ /index.php?mid=$1&document_srl=$2 last;
+
+# mid + entry title
+rewrite ^/([a-zA-Z0-9_]+)/entry/(.+)$ /index.php?mid=$1&entry=$2 last;
+
+# file download
+rewrite ^/files/download/([0-9]+)/([a-zA-Z0-9_-]+)/(.+)$ /index.php?act=procFileOutput&file_srl=$1&file_key=$2&filename=$3 last;
