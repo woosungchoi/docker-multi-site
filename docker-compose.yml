@@ -3,8 +3,6 @@ version: '3'
 services:
 
   acme.sh:
-    depends_on:
-      - webserver
     image: neilpang/acme.sh
     container_name: acme.sh
     env_file: .env
