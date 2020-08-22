@@ -9,6 +9,7 @@ services:
     env_file: .env
     environment:
       - TZ=Asia/Seoul
+      - MARIADB_MULTIPLE_DATABASES=gnuborad,wordpress,rhymix
     volumes:
       - ./data/dbdata:/var/lib/mysql
       - ./db:/docker-entrypoint-initdb.d
