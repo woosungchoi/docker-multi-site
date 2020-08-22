@@ -1,14 +1,16 @@
 # docker-multi-site
 
-`docker compose`로 그누보드, 워드프레스, 라이믹스를 한번에 운영할 수 있는 셋팅입니다.
+우분투 20.04 LTS 기준 `docker compose`로 그누보드, 워드프레스, 라이믹스를 한번에 운영할 수 있는 셋팅입니다.
 
 php 이미지에 ffmpeg와 redis를 추가합니다.
 
 `php`만 `Dockerfile`로 빌드하고, 나머지는 모두 공식 이미지로 구성합니다.
 
+포트는 80과 443을 사용하고 있습니다. 해당 포트의 방화벽을 열어주세요.
+
+포트를 변경하고 싶다면 docker-compose.yml 파일에서 `80:80`과 `443:443`을 `xx:80`, `yyy:443`의 형태로 바꾸면 됩니다.
+
 상세 원문은 https://www.wsgvet.com/bbs/board.php?bo_table=ubuntu&wr_id=123 를 참조하세요!
-
-
 
 
 ## 서버 시간 설정하기
