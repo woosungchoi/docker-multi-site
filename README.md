@@ -663,3 +663,18 @@ chmod a+x docker_upgrade.sh
 위 명령어로 도커 업그레이드 파일을 실행 가능하게 바꿉니다.
 
 그리고 `crontab`에 매일 또는 일주일에 한번 실행하게 추가해줍니다.
+
+```
+sudo crontab -e
+```
+위 명령어를 넣은 후 
+
+```
+30 12 * * * /your/path/docker-multi-site/docker_upgrade.sh >> /var/log/docker_upgrade_cron.log 2>&1
+```
+
+위와 같이 추가해줍니다. (위 셋팅은 매일 오후 12시 30분마다 실행)
+
+`/your/path/docker-multi-site/` 이 부분은 자신의 경로에 맞게 수정하세요!
+
+컨트롤 + O, 엔터, 컨트롤 + Y로 저장해줍니다.
