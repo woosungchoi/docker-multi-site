@@ -106,7 +106,7 @@ https://www.wsgvet.com/bbs/board.php?bo_table=home&wr_id=653
 
 위 내용대로 클라우드플레어나 LuaDNS를 이용하여 DNS API 방식으로 와일드카드 인증서를 발급 받습니다.
 
-`ssl_renew.sh`까지 완료합니다.
+`ssl_renew.sh`의 경로  완료합니다.
 
 
 ## SMTP 구글 릴레이 메일서버용 구글계정 앱 비밀번호 생성하기(그누보드 전용)
@@ -649,3 +649,17 @@ sudo docker-compose pull && docker pull php:7.4-fpm-alpine && sudo docker-compos
 ```
 
 그리고 위 명령어로 모아서 실행해도 됩니다.
+
+## 도커 이미지 최신버전 업그레이드 자동 실행 설정
+
+루트에 있는 `docker_upgrade.sh` 파일을 열어서 `cd /your/path/docker-multi-site/` 부분을 `docker-compose.yml` 파일이 있는 경로로 바꿉니다.
+
+그리고 권한을 수정합니다.
+
+```
+chmod a+x docker_upgrade.sh
+```
+
+위 명령어로 도커 업그레이드 파일을 실행 가능하게 바꿉니다.
+
+그리고 `crontab`에 매일 또는 일주일에 한번 실행하게 추가해줍니다.
