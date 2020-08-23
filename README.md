@@ -463,93 +463,6 @@ DB 번호 : `1`
 
 `redis:6379` 를 넣어도 됩니다.
 
-## php 8.0으로 업그레이드하는 방법
-
-현재(2020년 8월) php의 최신버전은 `7.4`입니다. 그리고 2020년 11월 중순에 `8.0` 정식 버전이 나올 것입니다.
-
-그때 `8.0`으로 업그레이드 하고 싶다면 `./build/Dockerfile`을 수정하면 됩니다.
-
-`Docker`허브에서 직접 관리하고 있는 `Wordpress Docker`파일을 사용할 것입니다.
-
-`워드프레스` 이미지의 `Dockerfile` 이 관리가 잘되고 있고 그누보드, 라이믹스와 호환이 잘되기 때문입니다.
-
-https://github.com/docker-library/wordpress/tree/master
-
-2020년 11월에 위 링크에서 `php8.0` 폴더가 생길 것입니다. (물론 그 이후에 `8.1`, `8.2`가 나와도 같은 방식으로 업데이트하면 됩니다.)
-
-들어가보면 `apache`, `cli`, `fpm-alpine`, `fpm`이 있을텐데요.
-
-현재 가이드에서는 `fpm-alpine`을 사용하고 있습니다. 용량이 매우 적은 장점이 있습니다.
-
-`php8.0` 폴더의 `fpm-alpine` 폴더에 들어가면 `Dockerfile`이 있을 것입니다.
-
-해당 파일을 `./build` 폴더에 덮어씁니다.
-
-`Dockerfile`을 열어서 11번째 줄에 보면
-
-```
-# Alpine package for "imagemagick" contains ~120 .so files, see: https://github.com/docker-library/wordpress/pull/497
-		imagemagick
-```
-
-위 내용이 있는데요.
-
-```
-# Alpine package for "imagemagick" contains ~120 .so files, see: https://github.com/docker-library/wordpress/pull/497
-		imagemagick \
-# For gnuboard ffmpeg gif2mp4webm
-		ffmpeg
-```
-
-위 내용으로 바꿔줍니다. 이제 `php` 이미지에 `ffmpeg`가 설치될 것입니다.
-
-추가로 `php-redis`도 설치해줍니다.
-
-대략 34~38번째 줄을 보면
-
-```
-pecl install imagick-3.4.4; \
-docker-php-ext-enable imagick; \
-```
-
-위 내용이 있는데
-
-```
-pecl install imagick-3.4.4 redis; \
-docker-php-ext-enable imagick redis; \
-```
-
-위와 같이 redis를 추가해줍니다.
-
-그러면 이미지 빌드할 때 `php-redis`가 설치됩니다.
-
-그리고 기존 워드프레스를 제거하고 3종 CMS를 사용할 것이므로 
-
-75번째 ~ 92번째 줄에 있는
-
-```
-ENV WORDPRESS_VERSION 5.5
-ENV WORDPRESS_SHA1 03fe1a139b3cd987cc588ba95fab2460cba2a89e
-
-RUN set -ex; \
-	curl -o wordpress.tar.gz -fSL "https://wordpress.org/wordpress-${WORDPRESS_VERSION}.tar.gz"; \
-	echo "$WORDPRESS_SHA1 *wordpress.tar.gz" | sha1sum -c -; \
-# upstream tarballs include ./wordpress/ so this gives us /usr/src/wordpress
-	tar -xzf wordpress.tar.gz -C /usr/src/; \
-	rm wordpress.tar.gz; \
-	chown -R www-data:www-data /usr/src/wordpress; \
-# pre-create wp-content (and single-level children) for folks who want to bind-mount themes, etc so permissions are pre-created properly instead of root:root
-	mkdir wp-content; \
-	for dir in /usr/src/wordpress/wp-content/*/; do \
-		dir="$(basename "${dir%/}")"; \
-		mkdir "wp-content/$dir"; \
-	done; \
-	chown -R www-data:www-data wp-content; \
-	chmod -R 777 wp-content
-```
-
-위 내용을 지워줍니다. 그리고 저장 후 사용하면 됩니다.
-
 ## 도커 이미지 최신버전으로 업그레이드
 
 php 이미지를 제외한 나머지 이미지는 모두 공식 이미지입니다.
@@ -678,3 +591,92 @@ sudo crontab -e
 `/your/path/docker-multi-site/` 이 부분은 자신의 경로에 맞게 수정하세요!
 
 컨트롤 + O, 엔터, 컨트롤 + Y로 저장해줍니다.
+
+## php 8.0으로 업그레이드하는 방법
+
+현재(2020년 8월) php의 최신버전은 `7.4`입니다. 그리고 2020년 11월 중순에 `8.0` 정식 버전이 나올 것입니다.
+
+그때 `8.0`으로 업그레이드 하고 싶다면 `./build/Dockerfile`을 수정하면 됩니다.
+
+`Docker`허브에서 직접 관리하고 있는 `Wordpress Docker`파일을 사용할 것입니다.
+
+`워드프레스` 이미지의 `Dockerfile` 이 관리가 잘되고 있고 그누보드, 라이믹스와 호환이 잘되기 때문입니다.
+
+https://github.com/docker-library/wordpress/tree/master
+
+2020년 11월에 위 링크에서 `php8.0` 폴더가 생길 것입니다. (물론 그 이후에 `8.1`, `8.2`가 나와도 같은 방식으로 업데이트하면 됩니다.)
+
+들어가보면 `apache`, `cli`, `fpm-alpine`, `fpm`이 있을텐데요.
+
+현재 가이드에서는 `fpm-alpine`을 사용하고 있습니다. 용량이 매우 적은 장점이 있습니다.
+
+`php8.0` 폴더의 `fpm-alpine` 폴더에 들어가면 `Dockerfile`이 있을 것입니다.
+
+해당 파일을 `./build` 폴더에 덮어씁니다.
+
+`Dockerfile`을 열어서 11번째 줄에 보면
+
+```
+# Alpine package for "imagemagick" contains ~120 .so files, see: https://github.com/docker-library/wordpress/pull/497
+		imagemagick
+```
+
+위 내용이 있는데요.
+
+```
+# Alpine package for "imagemagick" contains ~120 .so files, see: https://github.com/docker-library/wordpress/pull/497
+		imagemagick \
+# For gnuboard ffmpeg gif2mp4webm
+		ffmpeg
+```
+
+위 내용으로 바꿔줍니다. 이제 `php` 이미지에 `ffmpeg`가 설치될 것입니다.
+
+추가로 `php-redis`도 설치해줍니다.
+
+대략 34~38번째 줄을 보면
+
+```
+pecl install imagick-3.4.4; \
+docker-php-ext-enable imagick; \
+```
+
+위 내용이 있는데
+
+```
+pecl install imagick-3.4.4 redis; \
+docker-php-ext-enable imagick redis; \
+```
+
+위와 같이 redis를 추가해줍니다.
+
+그러면 이미지 빌드할 때 `php-redis`가 설치됩니다.
+
+그리고 기존 워드프레스를 제거하고 3종 CMS를 사용할 것이므로 
+
+75번째 ~ 92번째 줄에 있는
+
+```
+ENV WORDPRESS_VERSION 5.5
+ENV WORDPRESS_SHA1 03fe1a139b3cd987cc588ba95fab2460cba2a89e
+
+RUN set -ex; \
+	curl -o wordpress.tar.gz -fSL "https://wordpress.org/wordpress-${WORDPRESS_VERSION}.tar.gz"; \
+	echo "$WORDPRESS_SHA1 *wordpress.tar.gz" | sha1sum -c -; \
+# upstream tarballs include ./wordpress/ so this gives us /usr/src/wordpress
+	tar -xzf wordpress.tar.gz -C /usr/src/; \
+	rm wordpress.tar.gz; \
+	chown -R www-data:www-data /usr/src/wordpress; \
+# pre-create wp-content (and single-level children) for folks who want to bind-mount themes, etc so permissions are pre-created properly instead of root:root
+	mkdir wp-content; \
+	for dir in /usr/src/wordpress/wp-content/*/; do \
+		dir="$(basename "${dir%/}")"; \
+		mkdir "wp-content/$dir"; \
+	done; \
+	chown -R www-data:www-data wp-content; \
+	chmod -R 777 wp-content
+```
+
+위 내용을 지워줍니다. 그리고 저장 후 사용하면 됩니다.
+
+그리고 위에 있는 자동 업그레이드 설정 부분에서 `7.4`로 되어 있는 것을 `8.0` 또는 자신의 원하는 버전으로 바꾸면 됩니다.
