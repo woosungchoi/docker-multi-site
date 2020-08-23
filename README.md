@@ -574,6 +574,7 @@ sudo docker-compose up --build -d
 
 위 명령어를 내리면 업데이트 된 이미지는 재생성하고, `php`를 빌드하고 백그라운드에서 실행 될 것입니다.
 
+```
 ~/docker-multi-site$ docker pull php:7.4-fpm-alpine
 7.4-fpm-alpine: Pulling from library/php
 Digest: sha256:b9628c1dd26165603f75bba116da4bb436b117613895117e34cde8b4ab2f29a3
@@ -630,6 +631,7 @@ code-server is up-to-date
 phpmyadmin is up-to-date
 php is up-to-date
 Starting acme.sh ... done
+```
 
 위와 같이 진행됩니다.
 
