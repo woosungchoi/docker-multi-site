@@ -549,3 +549,92 @@ RUN set -ex; \
 ```
 
 위 내용을 지워줍니다. 그리고 저장 후 사용하면 됩니다.
+
+## 도커 이미지 최신버전으로 업그레이드
+
+php 이미지를 제외한 나머지 이미지는 모두 공식 이미지입니다.
+
+특정 Tag를 지정하지 않았으므로 최신버전으로 지정되어 있는데요.
+
+```
+sudo docker-compose pull
+```
+위 명령어로 도커 컴포즈 파일에 있는 이미지의 최신버전을 다운 받습니다.
+
+
+```
+docker pull php:7.4-fpm-alpine
+```
+
+그리고 `php` 빌드에 필요한 `php:7.4-fpm-alpine`도 업데이트합니다.
+
+```
+sudo docker-compose up --build -d
+```
+
+위 명령어를 내리면 업데이트 된 이미지는 재생성하고, `php`를 빌드하고 백그라운드에서 실행 될 것입니다.
+
+~/docker-multi-site$ docker pull php:7.4-fpm-alpine
+7.4-fpm-alpine: Pulling from library/php
+Digest: sha256:b9628c1dd26165603f75bba116da4bb436b117613895117e34cde8b4ab2f29a3
+Status: Image is up to date for php:7.4-fpm-alpine
+docker.io/library/php:7.4-fpm-alpine
+
+~/docker-multi-site$ docker-compose pull
+Pulling db          ... done
+Pulling redis       ... done
+Pulling smtp        ... done
+Pulling php         ... done
+Pulling nginx       ... done
+Pulling acme.sh     ... done
+Pulling phpmyadmin  ... done
+Pulling portainer   ... done
+Pulling code-server ... done
+
+~/docker-multi-site$ docker-compose up --build -d
+Building php
+Step 1/9 : FROM php:7.4-fpm-alpine
+ ---> f9f075c5a926
+Step 2/9 : RUN apk add --no-cache               bash            sed             ghostscript             imagemagick  ffmpeg
+ ---> Using cache
+ ---> 8de2208a27bf
+Step 3/9 : RUN set -ex;                 apk add --no-cache --virtual .build-deps                $PHPIZE_DEPS         freetype-dev             imagemagick-dev                 libjpeg-turbo-dev               libpng-dev              libzip-dev    ;               docker-php-ext-configure gd --with-freetype --with-jpeg;        docker-php-ext-install -j "$(nproc)"          bcmath          exif            gd              mysqli          zip     ;       pecl install imagick-3.4.4 redis;     docker-php-ext-enable imagick redis;            runDeps="$(             scanelf --needed --nobanner --format '%n#p' --recursive /usr/local/lib/php/extensions                         | tr ',' '\n'                   | sort -u                     | awk 'system("[ -e /usr/local/lib/" $1 " ]") == 0 { next } { print "so:" $1 }'         )";  apk add --virtual .wordpress-phpexts-rundeps $runDeps;   apk del .build-deps
+ ---> Using cache
+ ---> 3441525548f2
+Step 4/9 : RUN set -eux;        docker-php-ext-enable opcache;  {               echo 'opcache.memory_consumption=128';                echo 'opcache.interned_strings_buffer=8';               echo 'opcache.max_accelerated_files=4000';   echo 'opcache.revalidate_freq=2';                echo 'opcache.fast_shutdown=1';         } > /usr/local/etc/php/conf.d/opcache-recommended.ini
+ ---> Using cache
+ ---> 3c683c69c921
+Step 5/9 : RUN {                echo 'error_reporting = E_ERROR | E_WARNING | E_PARSE | E_CORE_ERROR | E_CORE_WARNING | E_COMPILE_ERROR | E_COMPILE_WARNING | E_RECOVERABLE_ERROR';           echo 'display_errors = Off';            echo 'display_startup_errors = Off';          echo 'log_errors = On';                 echo 'error_log = /dev/stderr';      echo 'log_errors_max_len = 1024';                echo 'ignore_repeated_errors = On';             echo 'ignore_repeated_source = Off';          echo 'html_errors = Off';       } > /usr/local/etc/php/conf.d/error-logging.ini
+ ---> Using cache
+ ---> f506bd81a835
+Step 6/9 : VOLUME /var/www/html
+ ---> Using cache
+ ---> 2dd2db50ef41
+Step 7/9 : COPY docker-entrypoint.sh /usr/local/bin/
+ ---> Using cache
+ ---> 96a9e02a075f
+Step 8/9 : ENTRYPOINT ["docker-entrypoint.sh"]
+ ---> Using cache
+ ---> fe15a576da12
+Step 9/9 : CMD ["php-fpm"]
+ ---> Using cache
+ ---> 3be53dd0ad5a
+Successfully built 3be53dd0ad5a
+Successfully tagged gnuboard_php:latest
+portainer is up-to-date
+smtp_relay is up-to-date
+Starting acme.sh ...
+redis is up-to-date
+db is up-to-date
+code-server is up-to-date
+phpmyadmin is up-to-date
+php is up-to-date
+Starting acme.sh ... done
+
+위와 같이 진행됩니다.
+
+```
+sudo docker-compose pull && docker pull php:7.4-fpm-alpine && sudo docker-compose up --build -d
+```
+
+그리고 위 명령어로 모아서 실행해도 됩니다.
