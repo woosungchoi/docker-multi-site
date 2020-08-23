@@ -341,6 +341,17 @@ phpmyadmin : https://pma.example.com
 
 위와 같은 형식으로 접속할 수 있습니다.
 
+## 실행 후 보안 처리
+
+`/db/create-multiple-db.sh`
+
+위 파일에 DB의 `root` 비밀번호가 있기 때문에 삭제해야 합니다.
+
+도커가 실행될 때 `mariadb`의 `volume`이 생성되는데요. 그때 실행되면서 DB를 만듭니다.
+
+즉 이미 `volume`이 생성되었다면 컨테이너를 재생성해도 `create-multiple-db.sh`파일이 실행되지 않습니다.
+
+따라서 `DB`의 `/data/dbdata` 폴더를 삭제 하면 `DB`가 초기화됩니다. 그 후 컨테이너를 재생성하면 `create-multiple-db.sh`파일이 실행됩니다.
 
 ## CMS 설치 방법
 
