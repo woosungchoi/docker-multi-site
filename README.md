@@ -113,7 +113,7 @@ https://www.wsgvet.com/bbs/board.php?bo_table=home&wr_id=653
 
 위 내용대로 클라우드플레어나 LuaDNS를 이용하여 DNS API 방식으로 와일드카드 인증서를 발급 받습니다.
 
-`ssl_renew.sh`의 경로  완료합니다.
+`ssl_renew.sh`의 경로 수정까지 완료합니다.
 
 
 ## SMTP 구글 릴레이 메일서버용 구글계정 앱 비밀번호 생성하기(그누보드 전용)
