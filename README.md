@@ -491,7 +491,7 @@ sudo docker-compose pull
 
 
 ```
-docker pull php:7.4-fpm-alpine
+sudo docker pull php:7.4-fpm-alpine
 ```
 
 그리고 `php` 빌드에 필요한 `php:7.4-fpm-alpine`도 업데이트합니다.
@@ -573,7 +573,7 @@ sudo docker image prune -f
 위 명령어로 태그가 없는 이미지가 삭제됩니다.
 
 ```
-sudo docker-compose pull && docker pull php:7.4-fpm-alpine && sudo docker-compose up --build -d && sudo docker image prune -f
+sudo docker-compose pull && sudo docker pull php:7.4-fpm-alpine && sudo docker-compose up --build -d && sudo docker image prune -f
 ```
 
 그리고 위 명령어로 모아서 실행해도 됩니다.
