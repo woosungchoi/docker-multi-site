@@ -635,8 +635,17 @@ Starting acme.sh ... done
 
 위와 같이 진행됩니다.
 
+그리고 빌드가 새로 되면 기존에 있던 `php`이미지가 태그가 없는 상태로 남겨집니다.
+
+태그가 없는 이미지는 정리해주면 좋겠죠?
+
 ```
-sudo docker-compose pull && docker pull php:7.4-fpm-alpine && sudo docker-compose up --build -d
+sudo docker image prune -f
+```
+위 명령어로 태그가 없는 이미지가 삭제됩니다.
+
+```
+sudo docker-compose pull && docker pull php:7.4-fpm-alpine && sudo docker-compose up --build -d && sudo docker image prune -f
 ```
 
 그리고 위 명령어로 모아서 실행해도 됩니다.
