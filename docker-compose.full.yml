@@ -15,7 +15,7 @@ services:
 
   redis:
     container_name: redis
-    image: redis:latest
+    image: redis:alpine
     restart: unless-stopped
     volumes:
       - ./data/dataredis:/data
