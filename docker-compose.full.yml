@@ -72,7 +72,7 @@ services:
     command: acme.sh --cron --home "/acme.sh"
 
   phpmyadmin:
-    image: phpmyadmin/phpmyadmin
+    image: phpmyadmin
     container_name: phpmyadmin
     #ports:
     #  - "80:80"
