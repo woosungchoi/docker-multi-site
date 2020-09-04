@@ -1,7 +1,5 @@
 #!/bin/bash
 
-COMPOSE="/usr/local/bin/docker-compose --no-ansi"
+DOCKER="/usr/bin/docker"
 
-cd /home/sammy/gnuboard/
-
-$COMPOSE up acme.sh && $COMPOSE kill -s SIGHUP nginx
+$DOCKER start acme.sh && $DOCKER exec nginx nginx -s reload
