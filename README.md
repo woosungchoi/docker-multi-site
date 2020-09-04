@@ -612,6 +612,22 @@ sudo crontab -e
 
 컨트롤 + O, 엔터, 컨트롤 + Y로 저장해줍니다.
 
+## SSL 인증서 자동갱신 작업하기
+
+```
+sudo crontab -e
+```
+
+위 명령어를 넣은 후
+
+```
+30 13 * * * docker start acme.sh && docker exec nginx nginx -s reload >> /var/log/ssl_update_cron.log 2>&1
+```
+
+위와 같이 추가해줍니다.
+
+컨트롤 + O, 엔터, 컨트롤 + X, 엔터로 저장해줍니다.
+
 ## php 8.0으로 업그레이드하는 방법
 
 현재(2020년 8월) php의 최신버전은 `7.4`입니다. 그리고 2020년 11월 중순에 `8.0` 정식 버전이 나올 것입니다.
