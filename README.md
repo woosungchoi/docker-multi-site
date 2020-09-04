@@ -52,8 +52,7 @@
 │   ├── rhymix
 │   ├── wordpress
 │   └── ssl
-├── docker_upgrade.sh          # 도커 이미지 최신버전 업그레이드 스크립트
-└── ssl_renew.sh               # SSL 인증서 갱신 스크립트
+└── docker_upgrade.sh          # 도커 이미지 최신버전 업그레이드 스크립트
 ```
 
 ## 서버 시간 설정하기
