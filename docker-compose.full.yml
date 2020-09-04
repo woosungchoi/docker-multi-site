@@ -86,7 +86,7 @@ services:
       - /etc/timezone:/etc/timezone:ro
 
   portainer:
-    image: portainer/portainer
+    image: portainer/portainer-ce:alpine
     container_name: portainer
     restart: always
     #ports:
