@@ -52,8 +52,7 @@
 │   ├── rhymix
 │   ├── wordpress
 │   └── ssl
-├── docker_upgrade.sh          # 도커 이미지 최신버전 업그레이드 스크립트
-└── ssl_renew.sh               # SSL 인증서 갱신 스크립트
+└── docker_upgrade.sh          # 도커 이미지 최신버전 업그레이드 스크립트
 ```
 
 ## 서버 시간 설정하기
@@ -610,7 +609,23 @@ sudo crontab -e
 
 `/your/path/docker-multi-site/` 이 부분은 자신의 경로에 맞게 수정하세요!
 
-컨트롤 + O, 엔터, 컨트롤 + Y로 저장해줍니다.
+컨트롤 + O, 엔터, 컨트롤 + X로 저장해줍니다.
+
+## SSL 인증서 자동갱신 작업하기
+
+```
+sudo crontab -e
+```
+
+위 명령어를 넣은 후
+
+```
+30 13 * * * docker start acme.sh && docker exec nginx nginx -s reload >> /var/log/ssl_update_cron.log 2>&1
+```
+
+위와 같이 추가해줍니다.
+
+컨트롤 + O, 엔터, 컨트롤 + X로 저장해줍니다.
 
 ## php 8.0으로 업그레이드하는 방법
 
@@ -697,6 +712,21 @@ RUN set -ex; \
 	chmod -R 777 wp-content
 ```
 
-위 내용을 지워줍니다. 그리고 저장 후 사용하면 됩니다.
+위 내용을 지워줍니다. 
+
+그리고 
+
+```
+# fix work iconv library with alpine
+# Huge thanks to chodingsana!
+RUN apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/community/ --allow-untrusted gnu-libiconv
+ENV LD_PRELOAD /usr/lib/preloadable_libiconv.so php
+```
+
+위 내용을 넣습니다. iconv 관련 회원가입시 오류를 해결해줍니다.
+
+수정  후 컨트롤 + O, 엔터, 컨트롤 + X 로 저장 후 빠져나옵니다.
+
+저장 후 사용하면 됩니다.
 
 그리고 위에 있는 자동 업그레이드 설정 부분에서 `7.4`로 되어 있는 것을 `8.0` 또는 자신이 원하는 버전으로 바꾸면 됩니다.
