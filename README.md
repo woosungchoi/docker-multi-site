@@ -507,7 +507,7 @@ sudo docker-compose up --build -d
 위 명령어를 내리면 업데이트 된 이미지는 재생성하고, `php`를 빌드하고 백그라운드에서 실행 될 것입니다.
 
 ```
-~/docker-multi-site$ docker pull php:7.4-fpm-alpine
+~/docker-multi-site$ docker pull woosungchoi/fpm-alpine
 Pulling from woosungchoi/fpm-alpine
 df20fa9351a1: Already exists
 b358d6dbbdff: Already exists
