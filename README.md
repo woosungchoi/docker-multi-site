@@ -495,10 +495,10 @@ sudo docker-compose pull
 
 
 ```
-sudo docker pull php:7.4-fpm-alpine
+sudo docker pull woosungchoi/fpm-alpine
 ```
 
-그리고 `php` 빌드에 필요한 `php:7.4-fpm-alpine`도 업데이트합니다.
+그리고 `php` 빌드에 필요한 `woosungchoi/fpm-alpine`도 업데이트합니다.
 
 ```
 sudo docker-compose up --build -d
@@ -508,10 +508,24 @@ sudo docker-compose up --build -d
 
 ```
 ~/docker-multi-site$ docker pull php:7.4-fpm-alpine
-7.4-fpm-alpine: Pulling from library/php
-Digest: sha256:b9628c1dd26165603f75bba116da4bb436b117613895117e34cde8b4ab2f29a3
-Status: Image is up to date for php:7.4-fpm-alpine
-docker.io/library/php:7.4-fpm-alpine
+Pulling from woosungchoi/fpm-alpine
+df20fa9351a1: Already exists
+b358d6dbbdff: Already exists
+0232d962484c: Already exists
+0c1d3ac04d2a: Already exists
+b3732f4f24f8: Already exists
+fcb8848bd304: Already exists
+e3ca18042f44: Already exists
+4fdaa57ecb0d: Already exists
+f45e8ed5f113: Already exists
+206bc7d2ac83: Already exists
+08d96594edf0: Pull complete
+d450aa90f40c: Pull complete
+3992c3d95e5e: Pull complete
+ac4165693714: Pull complete
+9b20a4be545d: Pull complete
+Digest: sha256:de439ed3730232983f8c2261dfc3c0b7fb3051bef803ab0c76ea349e0d514443
+Status: Downloaded newer image for woosungchoi/fpm-alpine:latest
 
 ~/docker-multi-site$ docker-compose pull
 Pulling db          ... done
@@ -526,34 +540,24 @@ Pulling code-server ... done
 
 ~/docker-multi-site$ docker-compose up --build -d
 Building php
-Step 1/9 : FROM php:7.4-fpm-alpine
- ---> f9f075c5a926
-Step 2/9 : RUN apk add --no-cache               bash            sed             ghostscript             imagemagick  ffmpeg
- ---> Using cache
- ---> 8de2208a27bf
-Step 3/9 : RUN set -ex;                 apk add --no-cache --virtual .build-deps                $PHPIZE_DEPS         freetype-dev             imagemagick-dev                 libjpeg-turbo-dev               libpng-dev              libzip-dev    ;               docker-php-ext-configure gd --with-freetype --with-jpeg;        docker-php-ext-install -j "$(nproc)"          bcmath          exif            gd              mysqli          zip     ;       pecl install imagick-3.4.4 redis;     docker-php-ext-enable imagick redis;            runDeps="$(             scanelf --needed --nobanner --format '%n#p' --recursive /usr/local/lib/php/extensions                         | tr ',' '\n'                   | sort -u                     | awk 'system("[ -e /usr/local/lib/" $1 " ]") == 0 { next } { print "so:" $1 }'         )";  apk add --virtual .wordpress-phpexts-rundeps $runDeps;   apk del .build-deps
- ---> Using cache
- ---> 3441525548f2
-Step 4/9 : RUN set -eux;        docker-php-ext-enable opcache;  {               echo 'opcache.memory_consumption=128';                echo 'opcache.interned_strings_buffer=8';               echo 'opcache.max_accelerated_files=4000';   echo 'opcache.revalidate_freq=2';                echo 'opcache.fast_shutdown=1';         } > /usr/local/etc/php/conf.d/opcache-recommended.ini
- ---> Using cache
- ---> 3c683c69c921
-Step 5/9 : RUN {                echo 'error_reporting = E_ERROR | E_WARNING | E_PARSE | E_CORE_ERROR | E_CORE_WARNING | E_COMPILE_ERROR | E_COMPILE_WARNING | E_RECOVERABLE_ERROR';           echo 'display_errors = Off';            echo 'display_startup_errors = Off';          echo 'log_errors = On';                 echo 'error_log = /dev/stderr';      echo 'log_errors_max_len = 1024';                echo 'ignore_repeated_errors = On';             echo 'ignore_repeated_source = Off';          echo 'html_errors = Off';       } > /usr/local/etc/php/conf.d/error-logging.ini
- ---> Using cache
- ---> f506bd81a835
-Step 6/9 : VOLUME /var/www/html
- ---> Using cache
- ---> 2dd2db50ef41
-Step 7/9 : COPY docker-entrypoint.sh /usr/local/bin/
- ---> Using cache
- ---> 96a9e02a075f
-Step 8/9 : ENTRYPOINT ["docker-entrypoint.sh"]
- ---> Using cache
- ---> fe15a576da12
-Step 9/9 : CMD ["php-fpm"]
- ---> Using cache
- ---> 3be53dd0ad5a
-Successfully built 3be53dd0ad5a
-Successfully tagged gnuboard_php:latest
+Step 1/9 : FROM woosungchoi/fpm-alpine:latest
+ ---> 52a00ba84dec
+Step 2/5 : VOLUME /var/www/web
+ ---> Running in 17a0366ca280
+Removing intermediate container 17a0366ca280
+ ---> 7154b7f6ac58
+Step 3/5 : COPY docker-entrypoint.sh /usr/local/bin/
+ ---> bf1edbbd5f25
+Step 4/5 : ENTRYPOINT ["docker-entrypoint.sh"]
+ ---> Running in a4ac85308159
+Removing intermediate container a4ac85308159
+ ---> 2e0336c2139d
+Step 5/5 : CMD ["php-fpm"]
+ ---> Running in ec296281ea37
+Removing intermediate container ec296281ea37
+ ---> 12d7667ceb38
+Successfully built 12d7667ceb38
+Successfully tagged docker-multi-site_php:latest
 portainer is up-to-date
 smtp_relay is up-to-date
 Starting acme.sh ...
@@ -561,7 +565,7 @@ redis is up-to-date
 db is up-to-date
 code-server is up-to-date
 phpmyadmin is up-to-date
-php is up-to-date
+Recreating php   ... done
 Starting acme.sh ... done
 ```
 
@@ -577,7 +581,7 @@ sudo docker image prune -f
 위 명령어로 태그가 없는 이미지가 삭제됩니다.
 
 ```
-sudo docker-compose pull && sudo docker pull php:7.4-fpm-alpine && sudo docker-compose up --build -d && sudo docker image prune -f
+sudo docker-compose pull && sudo docker pull woosungchoi/fpm-alpine && sudo docker-compose up --build -d && sudo docker image prune -f
 ```
 
 그리고 위 명령어로 모아서 실행해도 됩니다.
