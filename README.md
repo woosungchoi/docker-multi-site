@@ -637,7 +637,8 @@ sudo crontab -e
 위 명령어를 넣은 후
 
 ```
-30 13 * * * docker start acme.sh && docker exec nginx nginx -s reload >> /var/log/ssl_update_cron.log 2>&1
+30 13 * * * docker start acme.sh >> /var/log/ssl_update_cron.log 2>&1
+35 13 * * * docker exec nginx nginx -s reload >> /var/log/ssl_update_cron.log 2>&1
 ```
 
 위와 같이 추가해줍니다.
